@@ -1,0 +1,118 @@
+{
+  "defaultProvider": "openrouter",
+  "providers": {
+    "openrouter": {
+      "type": "openai",
+      "baseURL": "https://openrouter.ai/api/v1",
+      "apiKey": "${OPENROUTER_API_KEY}",
+      "model": "meta-llama/llama-3.3-70b-instruct:free"
+    },
+    "gemini": {
+      "type": "openai",
+      "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "apiKey": "${GEMINI_API_KEY}",
+      "model": "gemini-2.5-flash"
+    },
+    "groq": {
+      "type": "openai",
+      "baseURL": "https://api.groq.com/openai/v1",
+      "apiKey": "${GROQ_API_KEY}",
+      "model": "llama-3.3-70b-versatile"
+    },
+    "openai": {
+      "type": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "${OPENAI_API_KEY}",
+      "model": "gpt-4o-mini"
+    },
+    "ollama": {
+      "type": "ollama",
+      "baseURL": "http://127.0.0.1:11434",
+      "model": "qwen2.5-coder:7b"
+    }
+  },
+  "providerEndpoints": {
+    "openrouter": {
+      "baseURL": "https://openrouter.ai/api/v1",
+      "apiKey": "${OPENROUTER_API_KEY}"
+    },
+    "gemini": {
+      "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "apiKey": "${GEMINI_API_KEY}"
+    },
+    "groq": {
+      "baseURL": "https://api.groq.com/openai/v1",
+      "apiKey": "${GROQ_API_KEY}"
+    },
+    "openai": {
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "${OPENAI_API_KEY}"
+    },
+    "ollama": {
+      "baseURL": "http://127.0.0.1:11434"
+    }
+  },
+  "models": {
+    "coding": "qwen/qwen3-coder:free",
+    "reasoning": "google/gemini-2.5-flash",
+    "general": "meta-llama/llama-3.3-70b-instruct:free",
+    "local": "qwen2.5-coder:7b",
+    "fallback": "google/gemma-4-31b-it:free"
+  },
+  "routing": {
+    "defaultMode": "auto",
+    "fallbackToLocal": true
+  },
+  "aliases": {
+    "fast": "groq",
+    "smart": "gemini",
+    "cheap": "openrouter",
+    "local": "ollama",
+    "gpt": "openai"
+  },
+  "agent": {
+    "maxIterations": 30,
+    "maxToolCallsPerTurn": 12,
+    "temperature": 0.1,
+    "contextWindow": 32000,
+    "streamReasoning": true
+  },
+  "safety": {
+    "requireConfirmForShell": true,
+    "requireConfirmForWrite": false,
+    "blockedCommands": [
+      "rm -rf /",
+      "mkfs",
+      ":(){ :|:& };:",
+      "dd if=",
+      "shutdown",
+      "reboot"
+    ],
+    "sandbox": false
+  },
+  "systemPrompt": "You are a senior AI coding assistant focused on clean code, debugging, refactoring, and concise explanations.",
+  "tools": {
+    "enabled": [
+      "readfile",
+      "writefile",
+      "editfile",
+      "patchfile",
+      "listdir",
+      "searchfiles",
+      "shell"
+    ]
+  },
+  "verification": {
+    "enabled": true,
+    "maxRetries": 2,
+    "commands": [
+      "npm run lint",
+      "npm run build"
+    ],
+    "triggerTools": [
+      "writefile",
+      "editfile",
+      "patchfile"
+    ]
+  }
+}

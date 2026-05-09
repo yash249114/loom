@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.loom/sessions/
+.loom/memory.json
+*.log
+.DS_Store
+.env
+.loomrc.json
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.vscode/
+.idea/
+tmp/
+test-projects/
