@@ -74,12 +74,62 @@ loom run "explain this codebase"
 
 Or just type any task — Loom handles the rest.
 
+## Website
+
+Loom has a companion website at [loom-agent.vercel.app](https://loom-agent.vercel.app) built with Next.js 16, Tailwind CSS 4, and Framer Motion.
+
+| Page | Description |
+|---|---|
+| [/](https://loom-agent.vercel.app) | Landing page with hero, features, terminal demo |
+| [/features](https://loom-agent.vercel.app/features) | Full feature listing |
+| [/docs](https://loom-agent.vercel.app/docs) | Documentation and FAQ |
+| [/download](https://loom-agent.vercel.app/download) | Install guides for all platforms |
+| [/changelog](https://loom-agent.vercel.app/changelog) | Release notes |
+
+### Website Development
+
+```bash
+cd website
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+### Build
+
+```bash
+cd website
+pnpm build
+```
+
+### Deploy
+
+The website deploys automatically to Vercel from the `website/` directory of the main repository. Root directory is set to `website`, framework is Next.js.
+
 ## Documentation
 
 - [Installation Guide](INSTALL.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Project Roadmap](ROADMAP.md)
 - [Architecture](architecture.md)
+
+## Repository Structure
+
+```
+loom/
+├─ src/             → CLI source code (TypeScript)
+├─ website/         → Website (Next.js 16)
+├─ tests/           → Test suite (Vitest)
+├─ scripts/         → Build and packaging scripts
+├─ docs/            → Documentation
+├─ bundle/          → Bundled CLI output
+├─ install.sh       → Unix install script
+├─ install.ps1      → Windows install script
+├─ package.json     → CLI package (loom-agent)
+├─ CHANGELOG.md     → Release history
+└─ README.md        → This file
+```
 
 ## License
 

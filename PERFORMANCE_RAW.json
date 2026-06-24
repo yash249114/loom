@@ -2,7 +2,7 @@
   {
     "test": "listdir",
     "fileCount": 100,
-    "durationMs": 1,
+    "durationMs": 2,
     "memoryMb": 0,
     "resultSize": 115,
     "passed": true
@@ -26,7 +26,7 @@
   {
     "test": "searchfiles-grep",
     "fileCount": 100,
-    "durationMs": 24,
+    "durationMs": 22,
     "memoryMb": 0,
     "resultSize": 2682,
     "passed": true
@@ -74,7 +74,7 @@
   {
     "test": "searchfiles-grep",
     "fileCount": 500,
-    "durationMs": 21,
+    "durationMs": 16,
     "memoryMb": 0,
     "resultSize": 2682,
     "passed": true
@@ -98,7 +98,7 @@
   {
     "test": "listdir",
     "fileCount": 1000,
-    "durationMs": 1,
+    "durationMs": 0,
     "memoryMb": 0,
     "resultSize": 115,
     "passed": true
@@ -106,7 +106,7 @@
   {
     "test": "listdir-recursive",
     "fileCount": 1000,
-    "durationMs": 2,
+    "durationMs": 1,
     "memoryMb": 0,
     "resultSize": 695,
     "passed": true
@@ -122,15 +122,15 @@
   {
     "test": "searchfiles-grep",
     "fileCount": 1000,
-    "durationMs": 20,
-    "memoryMb": 0,
+    "durationMs": 15,
+    "memoryMb": -4,
     "resultSize": 2682,
     "passed": true
   },
   {
     "test": "readfile",
     "fileCount": 1000,
-    "durationMs": 2,
+    "durationMs": 1,
     "memoryMb": 0,
     "resultSize": 1044,
     "passed": true

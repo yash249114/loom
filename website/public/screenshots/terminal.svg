@@ -1,0 +1,7 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#0a0a0f"/>
+  <text x="600" y="300" text-anchor="middle" font-family="monospace" font-size="32" fill="#a78bfa">Loom Terminal</text>
+  <text x="600" y="350" text-anchor="middle" font-family="monospace" font-size="18" fill="#64748b">$ loom find the auth bug</text>
+  <rect x="200" y="380" width="800" height="4" rx="2" fill="#7c3aed" opacity="0.3"/>
+  <text x="600" y="420" text-anchor="middle" font-family="monospace" font-size="14" fill="#4ade80">✓ Auth bug found and fixed</text>
+</svg>
