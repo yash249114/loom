@@ -7,20 +7,41 @@
     "loom": "./dist/cli/index.js"
   },
   "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "build:bundle": "node scripts/bundle.js",
+    "build:all": "pnpm build && pnpm build:bundle",
     "dev": "tsx src/cli/index.ts",
     "start": "node dist/cli/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest run --reporter=verbose",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist",
-    "prepublishOnly": "pnpm build"
+    "clean:all": "rimraf dist bundle",
+    "prepack": "pnpm build:bundle",
+    "prepublishOnly": "pnpm build:bundle",
+    "pkg": "node scripts/pkg-sea.js",
+    "chaos": "tsx src/chaos/run.ts",
+    "test:chaos": "tsx src/chaos/run.ts",
+    "ui-chaos": "tsx src/uichaos/run.ts",
+    "test:ui-chaos": "tsx src/uichaos/run.ts",
+    "precommit": "pnpm typecheck && pnpm build && pnpm test"
   },
   "engines": {
     "node": ">=18.17"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "dependencies": {
     "chalk": "^5.3.0",
@@ -39,7 +60,11 @@
   "devDependencies": {
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
     "@vitest/coverage-v8": "^4.1.5",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
     "rimraf": "^6.0.1",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3",
@@ -54,5 +79,13 @@
     "coding-assistant",
     "local-llm"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yash249114/loom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yash249114/loom/issues"
+  },
+  "homepage": "https://github.com/yash249114/loom"
 }

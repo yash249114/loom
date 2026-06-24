@@ -49,6 +49,10 @@ export class Agent extends TypedEmitter {
     super();
   }
 
+  onTyped(event: string, handler: (...args: any[]) => void): this {
+    return this.on(event, handler);
+  }
+
   get provider(): Provider {
     return this.opts.provider;
   }
@@ -94,6 +98,10 @@ export class Agent extends TypedEmitter {
       } catch {
         activeProvider = this.opts.provider;
       }
+    }
+
+    if (!activeProvider) {
+      throw new Error("No provider available. Check your configuration.");
     }
 
     const useNativeTools = activeProvider.supportsNativeTools;
@@ -415,6 +423,7 @@ export class Agent extends TypedEmitter {
       {
         role: "system",
         content: `[…${omitted} earlier messages omitted for context window…]`,
+        timestamp: Date.now(),
       },
       ...tail,
     ];

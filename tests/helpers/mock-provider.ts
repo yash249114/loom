@@ -61,6 +61,9 @@ export class MockProvider implements Provider {
     if (resp.text) {
       const chunkSize = 20;
       for (let i = 0; i < resp.text.length; i += chunkSize) {
+        if (req.signal?.aborted) {
+          throw new Error("Aborted");
+        }
         const delta = resp.text.slice(i, i + chunkSize);
         yield { delta, done: false };
         if (resp.chunkDelayMs) {
@@ -71,6 +74,9 @@ export class MockProvider implements Provider {
 
     // Emit structured tool calls
     if (resp.toolCalls?.length) {
+      if (req.signal?.aborted) {
+        throw new Error("Aborted");
+      }
       for (const tc of resp.toolCalls) {
         const argsJson = JSON.stringify(tc.arguments);
         // Simulate OpenAI-style incremental deltas

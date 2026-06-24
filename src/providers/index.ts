@@ -1,3 +1,11 @@
 export { OllamaProvider } from "./ollama.js";
 export { OpenAIProvider } from "./openai.js";
-export { createProvider } from "./factory.js";
+export { AnthropicProvider } from "./anthropic.js";
+export { createProvider, createRoutedProvider } from "./factory.js";
+export { HealthMonitor } from "./health.js";
+export { ModelControlPlane } from "./mcp.js";
+export { FallbackChainExecutor } from "./chain.js";
+export { IntelligentRouter } from "./router.js";
+export { ProviderConnectWizard } from "./connect.js";
+export { ModelDiscovery } from "./discovery.js";
+export { PROVIDER_ENDPOINTS } from "./capabilities.js";

@@ -1,0 +1,146 @@
+[
+  {
+    "test": "listdir",
+    "fileCount": 100,
+    "durationMs": 1,
+    "memoryMb": 0,
+    "resultSize": 115,
+    "passed": true
+  },
+  {
+    "test": "listdir-recursive",
+    "fileCount": 100,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 695,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-glob",
+    "fileCount": 100,
+    "durationMs": 12,
+    "memoryMb": 0,
+    "resultSize": 611,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-grep",
+    "fileCount": 100,
+    "durationMs": 24,
+    "memoryMb": 0,
+    "resultSize": 2682,
+    "passed": true
+  },
+  {
+    "test": "readfile",
+    "fileCount": 100,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 1044,
+    "passed": true
+  },
+  {
+    "test": "workspace-context",
+    "fileCount": 100,
+    "durationMs": 0,
+    "memoryMb": 0,
+    "resultSize": 0,
+    "passed": true
+  },
+  {
+    "test": "listdir",
+    "fileCount": 500,
+    "durationMs": 1,
+    "memoryMb": 0,
+    "resultSize": 115,
+    "passed": true
+  },
+  {
+    "test": "listdir-recursive",
+    "fileCount": 500,
+    "durationMs": 1,
+    "memoryMb": 0,
+    "resultSize": 695,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-glob",
+    "fileCount": 500,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 611,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-grep",
+    "fileCount": 500,
+    "durationMs": 21,
+    "memoryMb": 0,
+    "resultSize": 2682,
+    "passed": true
+  },
+  {
+    "test": "readfile",
+    "fileCount": 500,
+    "durationMs": 1,
+    "memoryMb": 0,
+    "resultSize": 1044,
+    "passed": true
+  },
+  {
+    "test": "workspace-context",
+    "fileCount": 500,
+    "durationMs": 0,
+    "memoryMb": 0,
+    "resultSize": 0,
+    "passed": true
+  },
+  {
+    "test": "listdir",
+    "fileCount": 1000,
+    "durationMs": 1,
+    "memoryMb": 0,
+    "resultSize": 115,
+    "passed": true
+  },
+  {
+    "test": "listdir-recursive",
+    "fileCount": 1000,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 695,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-glob",
+    "fileCount": 1000,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 611,
+    "passed": true
+  },
+  {
+    "test": "searchfiles-grep",
+    "fileCount": 1000,
+    "durationMs": 20,
+    "memoryMb": 0,
+    "resultSize": 2682,
+    "passed": true
+  },
+  {
+    "test": "readfile",
+    "fileCount": 1000,
+    "durationMs": 2,
+    "memoryMb": 0,
+    "resultSize": 1044,
+    "passed": true
+  },
+  {
+    "test": "workspace-context",
+    "fileCount": 1000,
+    "durationMs": 0,
+    "memoryMb": 0,
+    "resultSize": 0,
+    "passed": true
+  }
+]

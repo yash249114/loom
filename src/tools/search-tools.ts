@@ -29,13 +29,21 @@ export const searchFilesTool: ToolDefinition = {
 
     const results: string[] = [];
     if (contains) {
-      const re = new RegExp(contains);
+      let re: RegExp;
+      try {
+        re = new RegExp(contains, "i");
+      } catch {
+        return `Error: Invalid regex pattern "${contains}"`;
+      }
+
       for (const m of matches) {
         if (results.length >= maxResults) break;
         const full = path.join(ctx.workspaceRoot, m);
         try {
           const stat = await fs.stat(full);
           if (stat.size > 2_000_000) continue;
+          const ext = path.extname(m).toLowerCase();
+          if (/\.(png|jpe?g|gif|bmp|ico|webp|mp[34]|wav|ogg|flac|wasm|exe|dll|so|dylib|zip|tar|gz|rar|7z|pdf|woff2?|ttf|otf)$/i.test(ext)) continue;
           const text = await fs.readFile(full, "utf8");
           const lines = text.split("\n");
           const hits: string[] = [];

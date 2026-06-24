@@ -13,16 +13,26 @@ export class SessionStore {
   private db: Low<DBShape>;
 
   constructor(private dir: string) {
-    fs.mkdirSync(dir, { recursive: true });
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+    } catch {
+      // Directory creation may fail on read-only filesystem — store will be read-only
+    }
     const file = path.join(dir, "sessions.json");
     this.db = new Low<DBShape>(new JSONFile<DBShape>(file), { sessions: [] });
   }
 
   async load(): Promise<void> {
-    await this.db.read();
-    // lowdb v7: data is already initialized via the second constructor arg
-    if (!this.db.data) {
+    try {
+      await this.db.read();
+      // lowdb v7: data is already initialized via the second constructor arg
+      if (!this.db.data) {
+        this.db.data = { sessions: [] };
+      }
+    } catch (error) {
+      // Handle corrupt database file gracefully
       this.db.data = { sessions: [] };
+      await this.db.write();
     }
   }
 

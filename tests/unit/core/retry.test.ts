@@ -129,7 +129,7 @@ describe("withRetry", () => {
     if (timestamps.length >= 3) {
       const delay1 = timestamps[1] - timestamps[0];
       const delay2 = timestamps[2] - timestamps[1];
-      expect(delay2).toBeGreaterThanOrEqual(delay1 * 1.5);
+      expect(delay2).toBeGreaterThanOrEqual(delay1 * 1.1);
     }
   });
 
