@@ -11,4 +11,5 @@ coverage/
 .vscode/
 .idea/
 tmp/
+website/.next/
 test-projects/

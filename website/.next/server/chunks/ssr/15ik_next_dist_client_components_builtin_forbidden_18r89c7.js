@@ -1,3 +1,0 @@
-module.exports=[16625,(a,b,c)=>{"use strict";Object.defineProperty(c,"__esModule",{value:!0}),Object.defineProperty(c,"default",{enumerable:!0,get:function(){return f}});let d=a.r(9546),e=a.r(20898);function f(){return(0,d.jsx)(e.HTTPAccessErrorFallback,{status:403,message:"This page could not be accessed."})}("function"==typeof c.default||"object"==typeof c.default&&null!==c.default)&&void 0===c.default.__esModule&&(Object.defineProperty(c.default,"__esModule",{value:!0}),Object.assign(c.default,c),b.exports=c.default)},13984,a=>{a.n(a.i(16625))}];
-
-//# sourceMappingURL=15ik_next_dist_client_components_builtin_forbidden_18r89c7.js.map
