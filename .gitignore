@@ -1,7 +1,6 @@
 node_modules/
 dist/
-.loom/sessions/
-.loom/memory.json
+.loom/
 *.log
 .DS_Store
 .env

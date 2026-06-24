@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProviderConfigSchema = z.object({
-  type: z.enum(["ollama", "openai"]),
+  type: z.enum(["ollama", "openai", "anthropic", "google"]),
   baseURL: z.string().url(),
   apiKey: z.string().optional(),
   model: z.string(),
@@ -47,32 +47,57 @@ export const ModelConfigSchema = z.object({
   general: z.string().default("meta-llama/llama-3.3-70b-instruct:free"),
   local: z.string().default("qwen2.5-coder:7b"),
   fallback: z.string().optional(),
+  mode: z.record(z.string()).optional(),
+  defaultMode: z.enum(["auto", "low", "medium", "high", "very-high", "max", "ultra"]).optional(),
 });
 
 export const RoutingConfigSchema = z.object({
   defaultMode: z.enum(["auto", "local", "remote"]).default("auto"),
   fallbackToLocal: z.boolean().default(true),
+  discovery: z.boolean().default(true),
+  cacheTtlMs: z.number().int().positive().default(3600000),
+  healthCheckIntervalMs: z.number().int().positive().default(60000),
+  maxFallbackRetries: z.number().int().min(1).max(10).default(3),
+  preferHealthyProviders: z.boolean().default(true),
+});
+
+export const McpServerSchema = z.object({
+  command: z.string(),
+  args: z.array(z.string()).optional(),
+  env: z.record(z.string()).optional(),
 });
 
 export const LoomConfigSchema = z.object({
   defaultProvider: z.string(),
   providers: z.record(ProviderConfigSchema),
-  providerEndpoints: z
-    .record(ProviderEndpointSchema)
-    .default({
-      openrouter: { baseURL: "https://openrouter.ai/api/v1" },
-      ollama: { baseURL: "http://127.0.0.1:11434" },
-    }),
+  providerEndpoints: z.record(ProviderEndpointSchema).default({
+    openrouter: { baseURL: "https://openrouter.ai/api/v1" },
+    ollama: { baseURL: "http://127.0.0.1:11434" },
+  }),
   aliases: z.record(z.string()).default({}),
-  agent: AgentConfigSchema.default({} as any),
-  safety: SafetyConfigSchema.default({} as any),
+  agent: AgentConfigSchema.default({}),
+  safety: SafetyConfigSchema.default({}),
   systemPrompt: z.string().nullable().default(null),
-  tools: z
-    .object({ enabled: z.array(z.string()).default([]) })
-    .default({ enabled: [] }),
-  verification: VerificationConfigSchema.default({} as any),
-  models: ModelConfigSchema.default({} as any),
-  routing: RoutingConfigSchema.default({} as any),
+  tools: z.object({ enabled: z.array(z.string()).default([]) }).default({ enabled: [] }),
+  verification: VerificationConfigSchema.default({}),
+  models: ModelConfigSchema.default({}),
+  routing: RoutingConfigSchema.default({}),
+  mcpServers: z.record(McpServerSchema).optional().default({}),
+}).superRefine((data, ctx) => {
+  if (data.defaultProvider && !data.providers[data.defaultProvider]) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["defaultProvider"],
+      message: `Provider '${data.defaultProvider}' not found in providers`,
+    });
+  }
+  if (Object.keys(data.providers).length === 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["providers"],
+      message: "At least one provider must be configured",
+    });
+  }
 });
 
 export type LoomConfigInput = z.input<typeof LoomConfigSchema>;

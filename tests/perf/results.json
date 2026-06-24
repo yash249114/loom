@@ -1,0 +1,171 @@
+[
+  {
+    "name": "Startup",
+    "fileCount": 0,
+    "latencyMs": 556,
+    "cpuMs": 0,
+    "memBeforeMB": 7.9,
+    "memAfterMB": 8.2,
+    "memDeltaMB": 0.2
+  },
+  {
+    "name": "Parser",
+    "fileCount": 100,
+    "latencyMs": 49,
+    "cpuMs": 16,
+    "memBeforeMB": 8.3,
+    "memAfterMB": 8.3,
+    "memDeltaMB": -0.1,
+    "opsPerSec": 2036
+  },
+  {
+    "name": "Indexer",
+    "fileCount": 100,
+    "latencyMs": 83,
+    "cpuMs": 16,
+    "memBeforeMB": 8.3,
+    "memAfterMB": 8.4,
+    "memDeltaMB": 0.1,
+    "opsPerSec": 1199
+  },
+  {
+    "name": "Cache",
+    "fileCount": 100,
+    "latencyMs": 62,
+    "cpuMs": 31,
+    "memBeforeMB": 8.6,
+    "memAfterMB": 8,
+    "memDeltaMB": -0.6,
+    "opsPerSec": 1720
+  },
+  {
+    "name": "MCP Score",
+    "fileCount": 100,
+    "latencyMs": 12,
+    "cpuMs": 0,
+    "memBeforeMB": 8.3,
+    "memAfterMB": 9.6,
+    "memDeltaMB": 1.3,
+    "opsPerSec": 8615
+  },
+  {
+    "name": "Parser",
+    "fileCount": 1000,
+    "latencyMs": 395,
+    "cpuMs": 266,
+    "memBeforeMB": 8.8,
+    "memAfterMB": 11.4,
+    "memDeltaMB": 2.6,
+    "opsPerSec": 2533
+  },
+  {
+    "name": "Indexer",
+    "fileCount": 1000,
+    "latencyMs": 84,
+    "cpuMs": 15,
+    "memBeforeMB": 11.4,
+    "memAfterMB": 11.5,
+    "memDeltaMB": 0.1,
+    "opsPerSec": 11897
+  },
+  {
+    "name": "Cache",
+    "fileCount": 1000,
+    "latencyMs": 96,
+    "cpuMs": 64,
+    "memBeforeMB": 11.6,
+    "memAfterMB": 10.5,
+    "memDeltaMB": -1.1,
+    "opsPerSec": 1099
+  },
+  {
+    "name": "MCP Score",
+    "fileCount": 1000,
+    "latencyMs": 29,
+    "cpuMs": 31,
+    "memBeforeMB": 10.7,
+    "memAfterMB": 10,
+    "memDeltaMB": -0.7,
+    "opsPerSec": 3494
+  },
+  {
+    "name": "Parser",
+    "fileCount": 5000,
+    "latencyMs": 2598,
+    "cpuMs": 1125,
+    "memBeforeMB": 12.5,
+    "memAfterMB": 16,
+    "memDeltaMB": 3.6,
+    "opsPerSec": 1925
+  },
+  {
+    "name": "Indexer",
+    "fileCount": 5000,
+    "latencyMs": 255,
+    "cpuMs": 0,
+    "memBeforeMB": 16,
+    "memAfterMB": 16.1,
+    "memDeltaMB": 0.1,
+    "opsPerSec": 19598
+  },
+  {
+    "name": "Cache",
+    "fileCount": 5000,
+    "latencyMs": 188,
+    "cpuMs": 77,
+    "memBeforeMB": 16.2,
+    "memAfterMB": 15.3,
+    "memDeltaMB": -0.9,
+    "opsPerSec": 565
+  },
+  {
+    "name": "MCP Score",
+    "fileCount": 5000,
+    "latencyMs": 35,
+    "cpuMs": 16,
+    "memBeforeMB": 15.5,
+    "memAfterMB": 14.2,
+    "memDeltaMB": -1.3,
+    "opsPerSec": 2830
+  },
+  {
+    "name": "Parser",
+    "fileCount": 10000,
+    "latencyMs": 3893,
+    "cpuMs": 1671,
+    "memBeforeMB": 12.5,
+    "memAfterMB": 11.5,
+    "memDeltaMB": -1,
+    "opsPerSec": 2569
+  },
+  {
+    "name": "Indexer",
+    "fileCount": 10000,
+    "latencyMs": 75,
+    "cpuMs": 0,
+    "memBeforeMB": 11.5,
+    "memAfterMB": 11.5,
+    "memDeltaMB": 0.1,
+    "opsPerSec": 133548
+  },
+  {
+    "name": "Cache",
+    "fileCount": 10000,
+    "latencyMs": 94,
+    "cpuMs": 79,
+    "memBeforeMB": 11.6,
+    "memAfterMB": 18.4,
+    "memDeltaMB": 6.8,
+    "opsPerSec": 1130
+  },
+  {
+    "name": "MCP Score",
+    "fileCount": 10000,
+    "latencyMs": 19,
+    "cpuMs": 16,
+    "memBeforeMB": 18.6,
+    "memAfterMB": 17,
+    "memDeltaMB": -1.5,
+    "opsPerSec": 5156
+  }
+]

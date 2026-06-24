@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import fsSync from "node:fs";
+import path from "node:path";
 
 export interface MemoryDoc {
   notes: string[];
@@ -19,7 +20,15 @@ export class MemoryStore {
   }
 
   async write(doc: MemoryDoc): Promise<void> {
-    await fs.writeFile(this.file, JSON.stringify(doc, null, 2), "utf8");
+    try {
+      const dir = path.dirname(this.file);
+      if (!fsSync.existsSync(dir)) {
+        await fs.mkdir(dir, { recursive: true });
+      }
+      await fs.writeFile(this.file, JSON.stringify(doc, null, 2), "utf8");
+    } catch (e: any) {
+      console.error(`Warning: Failed to write memory file: ${e.message}`);
+    }
   }
 
   async addNote(note: string): Promise<void> {

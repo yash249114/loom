@@ -1,0 +1,166 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+env:
+  NODE_VERSION: "22"
+  PNPM_VERSION: "10"
+
+jobs:
+  # ── Cross-platform test matrix ──────────────────────────────────
+  test:
+    name: Test ${{ matrix.os }} / Node ${{ matrix.node }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm typecheck
+
+      - run: pnpm build
+
+      - run: pnpm test:ci
+
+      # Verify binary can be invoked
+      - name: Smoke test
+        run: node dist/cli/index.js --help
+
+  # ── Packaging ───────────────────────────────────────────────────
+  pack:
+    name: Build & package
+    if: github.event_name == 'release'
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build all
+        run: pnpm build:all
+
+      - name: Create npm package
+        run: pnpm pack
+
+      - name: Upload npm tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: loom-agent-*.tgz
+
+      - name: Upload bundled bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle
+          path: bundle/
+
+  # ── Publish to npm ──────────────────────────────────────────────
+  publish-npm:
+    name: Publish to npm
+    if: github.event_name == 'release'
+    needs: [pack]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:bundle
+
+      - run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # ── Build standalone binaries ──────────────────────────────────
+  binary:
+    name: Binary ${{ matrix.os }}
+    if: github.event_name == 'release'
+    needs: [test]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build bundle
+        run: pnpm build:bundle
+
+      - name: Build standalone binary (Node SEA)
+        shell: bash
+        run: |
+          # Generate SEA config
+          node scripts/pkg-sea.js
+          # Create SEA blob
+          node --experimental-sea-config sea-config.json
+          # Copy Node binary
+          BINARY_NAME="loom-${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'darwin' || 'linux' }}-${{ runner.arch == 'ARM64' && 'arm64' || 'x64' }}"
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+            cp "$(which node)" "$BINARY_NAME"
+          else
+            cp "$(which node)" "$BINARY_NAME"
+          fi
+          # Inject SEA blob
+          npx postject "$BINARY_NAME" NODE_SEA_BLOB sea-prep.blob \
+            --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+          # Sign on macOS
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            codesign --sign - "$BINARY_NAME"
+          fi
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.os }}
+          path: loom-*

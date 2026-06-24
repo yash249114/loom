@@ -6,6 +6,36 @@ import { DEFAULT_CONFIG } from "./defaults.js";
 import { interpolateEnv } from "../core/util.js";
 import type { LoomConfig } from "../core/types.js";
 
+export function deepMerge(
+  target: Record<string, unknown>,
+  source: Record<string, unknown>
+): Record<string, unknown> {
+  const result: Record<string, unknown> = { ...target };
+
+  for (const key of Object.keys(source)) {
+    if (key === "__proto__" || key === "constructor" || key === "prototype") continue;
+    const targetVal = result[key];
+    const sourceVal = source[key];
+    if (
+      targetVal &&
+      sourceVal &&
+      typeof targetVal === "object" &&
+      typeof sourceVal === "object" &&
+      !Array.isArray(targetVal) &&
+      !Array.isArray(sourceVal)
+    ) {
+      result[key] = deepMerge(
+        targetVal as Record<string, unknown>,
+        sourceVal as Record<string, unknown>
+      );
+    } else if (sourceVal !== undefined) {
+      result[key] = sourceVal;
+    }
+  }
+
+  return result;
+}
+
 export function findConfigPath(workspace: string): string | null {
   const candidates = [
     path.join(workspace, ".loomrc.json"),
@@ -24,16 +54,34 @@ export function loadConfig(
 ): { config: LoomConfig; path: string | null } {
   const p = findConfigPath(workspace);
   if (!p) return { config: DEFAULT_CONFIG, path: null };
-  const raw = JSON.parse(fs.readFileSync(p, "utf8"));
-  const interpolated = interpolateEnv(raw);
-  const merged = { ...DEFAULT_CONFIG, ...interpolated };
-  const parsed = LoomConfigSchema.parse(merged);
-  return { config: parsed as LoomConfig, path: p };
+
+  try {
+    const raw = JSON.parse(fs.readFileSync(p, "utf8")) as Record<string, unknown>;
+    const interpolated = interpolateEnv(raw) as Record<string, unknown>;
+    const merged = deepMerge(DEFAULT_CONFIG as unknown as Record<string, unknown>, interpolated);
+    const parsed = LoomConfigSchema.parse(merged);
+    return { config: parsed as LoomConfig, path: p };
+  } catch (e: any) {
+    if (e instanceof SyntaxError) {
+      console.error(`Warning: Invalid JSON in config file ${p}, using defaults.`);
+    } else if (e.code === "EACCES" || e.code === "EPERM") {
+      console.error(`Warning: Permission denied reading config ${p}, using defaults.`);
+    } else if (e.code === "ENOENT") {
+      console.error(`Warning: Config file ${p} not found, using defaults.`);
+    } else {
+      console.error(`Warning: Error loading config ${p}: ${e.message}, using defaults.`);
+    }
+    return { config: DEFAULT_CONFIG, path: null };
+  }
 }
 
 export function writeConfig(filepath: string, config: LoomConfig): void {
-  fs.mkdirSync(path.dirname(filepath), { recursive: true });
-  fs.writeFileSync(filepath, JSON.stringify(config, null, 2));
+  try {
+    fs.mkdirSync(path.dirname(filepath), { recursive: true });
+    fs.writeFileSync(filepath, JSON.stringify(config, null, 2));
+  } catch (e: any) {
+    console.error(`Warning: Failed to write config file ${filepath}: ${e.message}`);
+  }
 }
 
 export function resolveProvider(

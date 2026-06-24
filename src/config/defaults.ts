@@ -43,6 +43,12 @@ export const DEFAULT_CONFIG: LoomConfig = {
       "reboot",
       "poweroff",
       "format",
+      // Windows-specific destructive commands
+      "rmdir /s",
+      "del /f /s",
+      "format ",
+      "shutdown /",
+      "taskkill /f",
     ],
 
     sandbox: false,
@@ -80,6 +86,8 @@ export const DEFAULT_CONFIG: LoomConfig = {
   routing: {
     defaultMode: "auto",
     fallbackToLocal: true,
+    discovery: true,
+    cacheTtlMs: 3600000,
   },
 };
 

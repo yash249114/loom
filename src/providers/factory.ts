@@ -1,9 +1,15 @@
 import type { Provider, ProviderConfig, LoomConfig, RoutingDecision } from "../core/types.js";
 import { OllamaProvider } from "./ollama.js";
 import { OpenAIProvider } from "./openai.js";
+import { AnthropicProvider } from "./anthropic.js";
+
+export { ModelDiscovery } from "./discovery.js";
+export { ModelCache } from "./cache.js";
+export { AnthropicProvider } from "./anthropic.js";
+export { inferCapabilities, inferModelMode, estimateContextWindow } from "./capabilities.js";
 
 /**
- * Create a provider from a legacy ProviderConfig entry.
+ * Create a provider from a ProviderConfig entry.
  */
 export function createProvider(name: string, cfg: ProviderConfig): Provider {
   switch (cfg.type) {
@@ -11,20 +17,27 @@ export function createProvider(name: string, cfg: ProviderConfig): Provider {
       return new OllamaProvider(name, cfg);
     case "openai":
       return new OpenAIProvider(name, cfg);
+    case "anthropic":
+      return new AnthropicProvider(name, cfg);
+    case "google":
+      // Gemini uses an OpenAI-compatible endpoint
+      return new OpenAIProvider(name, cfg);
     default:
       throw new Error(`Unknown provider type: ${(cfg as any).type}`);
   }
 }
 
 /**
- * Create a provider from a RoutingDecision, using providerEndpoints
- * from the config. This is the primary factory for routed requests.
+ * Create a provider from a RoutingDecision.
  */
 export function createRoutedProvider(
   decision: RoutingDecision,
   config: LoomConfig
 ): Provider {
-  if (decision.provider === "ollama") {
+  const providerName = decision.provider;
+
+  // Ollama local
+  if (providerName === "ollama") {
     const endpoint = config.providerEndpoints.ollama ?? {
       baseURL: "http://127.0.0.1:11434",
     };
@@ -35,18 +48,51 @@ export function createRoutedProvider(
     });
   }
 
-  // OpenRouter (or any OpenAI-compatible endpoint)
-  const endpoint = config.providerEndpoints.openrouter ?? {
+  // Anthropic
+  if (providerName === "anthropic") {
+    const endpoint = config.providerEndpoints.anthropic ?? {
+      baseURL: "https://api.anthropic.com/v1",
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    };
+    return new AnthropicProvider("anthropic", {
+      type: "anthropic",
+      baseURL: endpoint.baseURL,
+      apiKey: endpoint.apiKey ?? "",
+      model: decision.model,
+    });
+  }
+
+  // Gemini — use OpenAI-compatible endpoint
+  if (providerName === "gemini") {
+    const endpoint = config.providerEndpoints.gemini ?? {
+      baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+      apiKey: process.env.GEMINI_API_KEY,
+    };
+    return new OpenAIProvider("gemini", {
+      type: "openai",
+      baseURL: endpoint.baseURL,
+      apiKey: endpoint.apiKey ?? "",
+      model: decision.model,
+    });
+  }
+
+  // OpenRouter, Groq, OpenAI — all OpenAI-compatible
+  const endpoint = config.providerEndpoints[providerName] ?? {
     baseURL: "https://openrouter.ai/api/v1",
+    apiKey: process.env.OPENROUTER_API_KEY,
   };
-  return new OpenAIProvider("openrouter", {
+
+  const headers: Record<string, string> = {};
+  if (providerName === "openrouter") {
+    headers["HTTP-Referer"] = "https://github.com/yourusername/loom";
+    headers["X-Title"] = "Loom CLI";
+  }
+
+  return new OpenAIProvider(providerName, {
     type: "openai",
     baseURL: endpoint.baseURL,
     apiKey: endpoint.apiKey ?? "",
     model: decision.model,
-    headers: {
-      "HTTP-Referer": "https://github.com/yourusername/loom",
-      "X-Title": "Loom CLI",
-    },
+    headers,
   });
 }

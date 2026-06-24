@@ -1,4 +1,5 @@
 import { execa } from "execa";
+import path from "node:path";
 import { z } from "zod";
 import type { ToolDefinition } from "../core/types.js";
 import { truncate } from "../core/util.js";
@@ -42,7 +43,7 @@ export function createShellTool(opts: {
       try {
         const result = await execa(command, {
           shell: true,
-          cwd: cwd ? `${ctx.workspaceRoot}/${cwd}` : ctx.workspaceRoot,
+          cwd: cwd ? path.join(ctx.workspaceRoot, cwd) : ctx.workspaceRoot,
           timeout: timeoutMs,
           all: true,
           reject: false,
@@ -51,6 +52,9 @@ export function createShellTool(opts: {
         const exitInfo = `[exit ${result.exitCode ?? 0}${result.timedOut ? " TIMEOUT" : ""}]`;
         return `${exitInfo}\n${truncate(output, 50000)}`;
       } catch (e: any) {
+        if (e.timedOut) {
+          return `[error] Command timed out after ${timeoutMs}ms TIMEOUT`;
+        }
         return `[error] ${e.message}`;
       }
     },

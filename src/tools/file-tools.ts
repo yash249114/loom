@@ -5,8 +5,14 @@ import type { ToolDefinition } from "../core/types.js";
 import { truncate } from "../core/util.js";
 
 const resolveSafe = (root: string, p: string): string => {
-  const abs = path.resolve(root, p);
-  if (!abs.startsWith(path.resolve(root))) {
+  const normalizedRoot = path.resolve(root);
+  const decodedP = decodeURIComponent(p);
+  const abs = path.resolve(root, decodedP);
+
+  const absNorm = process.platform === "win32" ? abs.toLowerCase() : abs;
+  const rootNorm = process.platform === "win32" ? normalizedRoot.toLowerCase() : normalizedRoot;
+
+  if (absNorm !== rootNorm && !absNorm.startsWith(rootNorm + path.sep)) {
     throw new Error(`Path '${p}' escapes workspace root`);
   }
   return abs;

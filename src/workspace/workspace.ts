@@ -27,19 +27,27 @@ export function workspaceLayout(root: string): WorkspaceLayout {
 
 export async function initWorkspace(root: string): Promise<WorkspaceLayout> {
   const layout = workspaceLayout(root);
-  await fs.mkdir(layout.loomDir, { recursive: true });
-  await fs.mkdir(layout.sessionsDir, { recursive: true });
-  await fs.mkdir(layout.pluginsDir, { recursive: true });
-
-  if (!fsSync.existsSync(layout.identityFile)) {
-    await fs.writeFile(layout.identityFile, defaultIdentity(root), "utf8");
+  try {
+    await fs.mkdir(layout.loomDir, { recursive: true });
+    await fs.mkdir(layout.sessionsDir, { recursive: true });
+    await fs.mkdir(layout.pluginsDir, { recursive: true });
+  } catch (e: any) {
+    console.error(`Warning: Failed to create workspace directories: ${e.message}`);
   }
-  if (!fsSync.existsSync(layout.memoryFile)) {
-    await fs.writeFile(
-      layout.memoryFile,
-      JSON.stringify({ notes: [], summaries: [] }, null, 2),
-      "utf8"
-    );
+
+  try {
+    if (!fsSync.existsSync(layout.identityFile)) {
+      await fs.writeFile(layout.identityFile, defaultIdentity(root), "utf8");
+    }
+    if (!fsSync.existsSync(layout.memoryFile)) {
+      await fs.writeFile(
+        layout.memoryFile,
+        JSON.stringify({ notes: [], summaries: [] }, null, 2),
+        "utf8"
+      );
+    }
+  } catch (e: any) {
+    console.error(`Warning: Failed to write workspace files: ${e.message}`);
   }
   return layout;
 }
@@ -49,9 +57,13 @@ export async function readWorkspaceContext(root: string): Promise<string> {
   const parts: string[] = [];
 
   if (fsSync.existsSync(layout.identityFile)) {
-    parts.push(
-      `### IDENTITY\n${await fs.readFile(layout.identityFile, "utf8")}`
-    );
+    try {
+      parts.push(
+        `### IDENTITY\n${await fs.readFile(layout.identityFile, "utf8")}`
+      );
+    } catch {
+      // ignore unreadable identity file
+    }
   }
   if (fsSync.existsSync(layout.memoryFile)) {
     try {
@@ -74,8 +86,12 @@ export async function readWorkspaceContext(root: string): Promise<string> {
   // Provide README as context
   const readme = path.join(root, "README.md");
   if (fsSync.existsSync(readme)) {
-    const txt = await fs.readFile(readme, "utf8");
-    parts.push(`### README (truncated)\n${txt.slice(0, 1500)}`);
+    try {
+      const txt = await fs.readFile(readme, "utf8");
+      parts.push(`### README (truncated)\n${txt.slice(0, 1500)}`);
+    } catch {
+      // ignore unreadable README
+    }
   }
 
   return parts.join("\n\n");
