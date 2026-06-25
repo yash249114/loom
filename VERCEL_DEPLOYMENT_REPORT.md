@@ -44,6 +44,12 @@
 | Best Practices | Good — clean Next.js config, no mixed content |
 | SEO | Good — proper metadata, viewport, semantic structure |
 
+## Notes
+
+- The Vercel project `rootDirectory` was updated from `.` to `website/` for correct automatic git-based deployments.
+- A `vercel.json` was added to `website/` to explicitly set framework, build, and install commands.
+- The extra `website` project created during initial deployment was cleaned up.
+
 ## Deployment Status
 
 🟢 Production Live
