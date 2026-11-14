@@ -1,115 +1,174 @@
-"use client";
+import { Metadata } from "next";
+import { SectionLabel } from "@/components/SectionLabel";
+import { Reveal } from "@/components/Reveal";
 
-import { motion } from "framer-motion";
+export const metadata: Metadata = {
+  title: "Changelog — Loom",
+  description: "Release notes for Loom. One release so far: v0.1.0-beta, plus the unreleased website redesign.",
+};
 
 const releases = [
   {
-    version: "0.1.0",
-    date: "June 24, 2026",
-    tag: "Initial release",
-    changes: [
-      { type: "feature", text: "Prompt-first interactive CLI — type natural language, no commands required" },
-      { type: "feature", text: "Multi-provider support: Ollama, OpenAI, OpenRouter, Anthropic, Gemini, Groq" },
-      { type: "feature", text: "Auto-routing — Loom picks the right model based on your prompt" },
-      { type: "feature", text: "6 agent modes: Plan, Build, Review, Debug, Research, Test" },
-      { type: "feature", text: "File tools: read, write, edit, patch, list, search" },
-      { type: "feature", text: "Shell execution with configurable safety gates" },
-      { type: "feature", text: "Session persistence — auto-saves conversations" },
-      { type: "feature", text: "Workspace memory — notes, summaries, project context" },
-      { type: "feature", text: "MCP server support for tool extensibility" },
-      { type: "feature", text: "Plugin system — custom tools via JS/ESM plugins" },
-      { type: "feature", text: "Codebase indexing — symbol lookup and dependency analysis" },
-      { type: "feature", text: "Configurable routing, model selection, and safety settings" },
-      { type: "feature", text: "Tab completion and command history in REPL" },
-      { type: "feature", text: "Multi-platform: Windows, macOS, Linux" },
-      { type: "feature", text: "Ink-based TUI with Welcome screen, Slash popup, and Command palette" },
-      { type: "feature", text: "esbuild bundle for fast startup and SEA binary support" },
-      { type: "feature", text: "Cross-platform CI: GitHub Actions with 3 OS × 3 Node versions" },
-      { type: "feature", text: "Install scripts for npm, pnpm, yarn, Homebrew (coming soon), and standalone binary" },
+    version: "0.1.0-beta",
+    date: "2026-06-24",
+    tag: "Initial beta release",
+    unreleased: false,
+    added: [
+      "Prompt-first CLI with slash commands",
+      "Multi-provider support: OpenRouter, Gemini, Groq, OpenAI, Ollama, Anthropic",
+      "Auto-routing by task category",
+      "Fallback chain: primary → cloud fallback → local",
+      "Agent loop with planner/executor and native function calling",
+      "Verification loop: run lint and build after edits",
+      "File tools: read, write, edit, patch",
+      "Search tools: glob, grep, symbol lookup",
+      "Shell tool with streaming, timeout and safety controls",
+      "Session persistence per workspace via lowdb",
+      "Safety layer: confirmations, blocked commands, sandbox flag",
+      "Plugin system for .loom/plugins/*.js",
+      "Workspace indexer with incremental rebuilds",
+      "Memory notes with lexical recall",
+      "MCP server support",
+      "Cascading .loomrc.json configuration with environment interpolation",
+      "Build, bundle, test and SEA package scripts",
     ],
+    docs: [
+      "README, INSTALL, CONTRIBUTING, SECURITY",
+      "Launch and release checklists",
+    ],
+    testing: [
+      "Unit, integration and QA suites",
+      "Config, routing, agents, tools, sessions and indexer coverage",
+      "Provider failure and shell safety cases",
+      "Performance benchmarks at 100, 500 and 1000 files",
+    ],
+    correction:
+      "The original release note described memory as a vector store. The shipped implementation stores notes as JSON and searches them lexically; embeddings and a vector database are planned.",
+  },
+  {
+    version: "Unreleased",
+    date: null,
+    tag: "Website redesign",
+    unreleased: true,
+    added: [
+      "Editorial design system: cream canvas, black surround, copper accent",
+      "Newsreader and Inter typography",
+      "WebGL halftone particle hero with a 2D canvas fallback",
+      "Providers page with four adapter implementations",
+      "Documentation page with sticky section navigation",
+      "Download page with platform selection and OS detection",
+      "Honest feature status tags: available, partial, planned",
+      "Changelog drawn from the real release notes",
+      "Skip link, focus-visible styles, semantic landmarks, reduced-motion support",
+    ],
+    docs: [],
+    testing: [
+      "Production build and lint",
+      "Manual checks at desktop and mobile widths",
+    ],
+    correction: null,
   },
 ];
 
-const typeStyles: Record<string, string> = {
-  feature: "bg-primary/10 text-primary border-primary/20",
-  fix: "bg-green-500/10 text-green-400 border-green-500/20",
-  breaking: "bg-red-500/10 text-red-400 border-red-500/20",
-};
-
 export default function ChangelogPage() {
   return (
-    <div className="px-4 py-16">
-      <div className="mx-auto max-w-4xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Changelog</h1>
-          <p className="mt-2 text-muted">
-            Release notes for every version of Loom.
+    <div className="bg-cream min-h-screen">
+      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+        <Reveal>
+          <SectionLabel number="—" label="Changelog" />
+          <h1 className="mt-6 font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Changelog
+          </h1>
+          <p className="mt-5 max-w-xl text-lg text-ink/65">
+            One release so far. Everything else on this site is unreleased work.
           </p>
-        </motion.div>
+        </Reveal>
 
-        <div className="relative mt-12">
-          {/* Timeline line */}
-          <div className="absolute left-[19px] top-0 h-full w-px bg-border" />
-
-          <div className="space-y-12">
-            {releases.map((release) => (
-              <motion.div
-                key={release.version}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="relative pl-12"
+        <div className="mt-16 space-y-12">
+          {releases.map((release, index) => (
+            <Reveal key={release.version} delay={index * 0.08}>
+              <article
+                className={`border section-rule p-6 md:p-8 ${
+                  release.unreleased ? "bg-copper/5" : ""
+                }`}
               >
-                {/* Dot */}
-                <div className="absolute left-2.5 top-1.5 h-3 w-3 rounded-full border-2 border-primary bg-background" />
-
-                <div className="mb-4">
-                  <h2 className="text-xl font-bold tracking-tight">
-                    v{release.version}
+                <header className="flex flex-wrap items-baseline gap-3 border-b section-rule pb-5">
+                  <h2 className="font-display-medium text-2xl text-ink">
+                    {release.unreleased ? release.version : `v${release.version}`}
                   </h2>
-                  <p className="text-sm text-muted">
-                    {release.date} — {release.tag}
-                  </p>
+                  <span className="label-sm text-ink/45">
+                    {release.date ?? "No release date"}
+                  </span>
+                  <span className="label-sm text-accent">{release.tag}</span>
+                  {release.unreleased && (
+                    <span className="border border-copper/40 px-2 py-0.5 label-sm text-copper-dark">
+                      Unreleased
+                    </span>
+                  )}
+                </header>
+
+                <div className="mt-6 grid gap-8 md:grid-cols-2">
+                  <section>
+                    <h3 className="label text-accent">Added</h3>
+                    <ul className="mt-3 space-y-2 text-sm text-ink/65">
+                      {release.added.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="mt-2 h-1 w-1 flex-shrink-0 bg-copper" aria-hidden="true" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <div className="space-y-8">
+                    {release.docs.length > 0 && (
+                      <section>
+                        <h3 className="label text-accent">Documentation</h3>
+                        <ul className="mt-3 space-y-2 text-sm text-ink/65">
+                          {release.docs.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
+                    {release.testing.length > 0 && (
+                      <section>
+                        <h3 className="label text-accent">Testing</h3>
+                        <ul className="mt-3 space-y-2 text-sm text-ink/65">
+                          {release.testing.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  {release.changes.map((change, i) => (
-                    <div
-                      key={i}
-                      className={`inline-block rounded-md border px-2.5 py-0.5 text-xs font-medium ${
-                        typeStyles[change.type] || typeStyles.feature
-                      }`}
-                    >
-                      {change.type}
-                    </div>
-                  ))}
-                  <ul className="mt-3 space-y-2">
-                    {release.changes.map((change, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
-                        <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-muted" />
-                        <span className="text-muted">{change.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                {release.correction && (
+                  <p className="mt-6 border-t section-rule pt-5 text-xs leading-relaxed text-ink/50">
+                    <span className="label-sm text-copper-dark">Correction · </span>
+                    {release.correction}
+                  </p>
+                )}
+              </article>
+            </Reveal>
+          ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-sm text-muted">
-            View the full commit history on{" "}
+        <Reveal className="mt-14 border-t section-rule pt-8">
+          <p className="text-sm text-ink/55">
+            The authoritative history is the commit log on{" "}
             <a
               href="https://github.com/yash249114/loom"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-primary hover:underline"
+              className="text-copper-dark underline underline-offset-2"
             >
               GitHub
             </a>
+            .
           </p>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

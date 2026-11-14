@@ -1,156 +1,188 @@
-"use client";
+import { Metadata } from "next";
+import Link from "next/link";
+import { SectionLabel } from "@/components/SectionLabel";
+import { Reveal } from "@/components/Reveal";
+import { CopyButton } from "@/components/CopyButton";
+import { PlatformPanel } from "./PlatformPanel";
 
-import { motion } from "framer-motion";
-
-const installs = [
-  {
-    title: "npm (recommended)",
-    desc: "Install globally via npm. Requires Node.js 18.17+.",
-    code: "npm install -g loom-agent",
-    note: "Then run `loom` in any project directory.",
-  },
-  {
-    title: "pnpm",
-    desc: "If you use pnpm as your package manager.",
-    code: "pnpm add -g loom-agent",
-  },
-  {
-    title: "Yarn",
-    desc: "If you use Yarn as your package manager.",
-    code: "yarn global add loom-agent",
-  },
-  {
-    title: "Homebrew (macOS)",
-    desc: "Coming soon — tap the Loom formula.",
-    code: "brew install loom",
-    pending: true,
-  },
-  {
-    title: "Standalone binary",
-    desc: "Download a pre-built binary for your platform (no Node.js required).",
-    code: "# Windows\ncurl -fsSL -o loom.exe https://github.com/yash249114/loom/releases/latest/download/loom-windows-x64.exe\n\n# macOS (Intel)\ncurl -fsSL -o loom https://github.com/yash249114/loom/releases/latest/download/loom-darwin-x64\nchmod +x ./loom\n\n# macOS (Apple Silicon)\ncurl -fsSL -o loom https://github.com/yash249114/loom/releases/latest/download/loom-darwin-arm64\nchmod +x ./loom\n\n# Linux (x64)\ncurl -fsSL -o loom https://github.com/yash249114/loom/releases/latest/download/loom-linux-x64\nchmod +x ./loom\n\n# Linux (ARM64)\ncurl -fsSL -o loom https://github.com/yash249114/loom/releases/latest/download/loom-linux-arm64\nchmod +x ./loom",
-  },
-  {
-    title: "Install script (Unix)",
-    desc: "One-liner for macOS, Linux, and WSL.",
-    code: "curl -fsSL https://raw.githubusercontent.com/yash249114/loom/main/install.sh | sh",
-  },
-  {
-    title: "Install script (Windows PowerShell)",
-    desc: "One-liner for Windows.",
-    code: 'powershell -c "irm https://raw.githubusercontent.com/yash249114/loom/main/install.ps1 | iex"',
-  },
-];
+export const metadata: Metadata = {
+  title: "Download & Install — Loom",
+  description: "The verified way to install Loom: build from source. Requirements, platform notes, updating and uninstalling.",
+};
 
 const postInstall = [
   {
-    title: "1. Run Loom",
-    code: "loom",
-    desc: "Starts the interactive prompt-first interface.",
+    title: "Start the agent",
+    cmd: "loom",
+    desc: "Opens the interactive prompt-first TUI.",
   },
   {
-    title: "2. Try a prompt",
-    code: "loom explain the codebase",
-    desc: "One-shot mode — routes your prompt to the best model.",
+    title: "Run a one-shot task",
+    cmd: 'loom run "explain the request pipeline"',
+    desc: "Runs a single task and exits.",
   },
   {
-    title: "3. Configure providers",
-    code: "loom init\nloom providers",
-    desc: "Initialize a workspace and discover your AI providers.",
+    title: "Initialize the workspace",
+    cmd: "loom init\nloom providers",
+    desc: "Creates .loomrc.json and lists the providers it can reach.",
   },
   {
-    title: "4. Set up local AI (optional)",
-    code: "# Install Ollama\n# https://ollama.com/download\n\n# Pull a coding model\nollama pull qwen2.5-coder:7b\n\n# Run Loom locally\nloom --local",
-    desc: "Fully offline AI coding. No cloud dependency.",
+    title: "Go fully local",
+    cmd: `ollama pull qwen2.5-coder:7b
+loom run --local "summarize src/"`,
+    desc: "Requires Ollama. No cloud calls, no API keys.",
   },
 ];
 
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.4 },
-};
+const updateSteps = `cd loom
+git pull
+pnpm install
+pnpm build
+# npm link still points at the built output
+loom --version`;
+
+const uninstallSteps = `npm unlink -g loom-agent
+# Then delete the cloned directory
+rm -rf /path/to/loom`;
 
 export default function DownloadPage() {
   return (
-    <div className="px-4 py-16">
-      <div className="mx-auto max-w-4xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-2xl text-white shadow-lg shadow-primary/30">
-            L
-          </div>
-          <h1 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            Install Loom
+    <div className="bg-cream min-h-screen">
+      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+        <Reveal>
+          <SectionLabel number="—" label="Install" />
+          <h1 className="mt-6 max-w-2xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Build from source. That is the only path today.
           </h1>
-          <p className="mx-auto mt-2 max-w-lg text-center text-muted">
-            Choose your installation method. Loom works on Windows, macOS, and
-            Linux.
+          <p className="mt-5 max-w-xl text-lg text-ink/65">
+            No release binaries, no Homebrew formula, and no official npm
+            package. Install with git, pnpm and npm link.
           </p>
-        </motion.div>
+        </Reveal>
 
-        <div className="mt-12 space-y-6">
-          {installs.map((inst, i) => (
-            <motion.div
-              key={inst.title}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className={`rounded-xl border p-5 ${
-                inst.pending
-                  ? "border-border/50 opacity-60"
-                  : "border-border hover:border-primary/30"
-              }`}
-            >
-              <div className="flex items-start justify-between">
+        <Reveal className="mt-12">
+          <PlatformPanel />
+        </Reveal>
+
+        <section className="mt-20">
+          <Reveal>
+            <h2 className="font-display-medium text-2xl text-ink">Prerequisites</h2>
+          </Reveal>
+          <Reveal className="mt-6 overflow-x-auto">
+            <table className="w-full border-t section-rule text-sm">
+              <thead>
+                <tr className="border-b section-rule">
+                  <th scope="col" className="label py-3 pr-6 text-left text-accent">Requirement</th>
+                  <th scope="col" className="label py-3 pr-6 text-left text-accent">Version</th>
+                  <th scope="col" className="label py-3 text-left text-accent">Check</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Node.js", "18.17 or newer", "node --version"],
+                  ["pnpm", "Latest", "pnpm --version"],
+                  ["Git", "Any", "git --version"],
+                  ["Ollama", "Optional, for local models", "ollama --version"],
+                ].map(([name, version, check]) => (
+                  <tr key={name} className="border-b section-rule">
+                    <td className="py-3 pr-6 font-medium text-ink">{name}</td>
+                    <td className="py-3 pr-6 text-ink/60">{version}</td>
+                    <td className="py-3 font-mono text-xs text-ink/55">{check}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Reveal>
+        </section>
+
+        <section className="mt-20">
+          <Reveal>
+            <h2 className="font-display-medium text-2xl text-ink">After installing</h2>
+          </Reveal>
+          <div className="mt-8 space-y-px border section-rule bg-[color:var(--section-hairline)]">
+            {postInstall.map((step, index) => (
+              <Reveal key={step.title} className="grid gap-6 bg-cream p-6 md:grid-cols-[1fr_1.2fr]">
                 <div>
-                  <h3 className="font-semibold">
-                    {inst.title}
-                    {inst.pending && (
-                      <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-xs text-accent">
-                        Coming soon
-                      </span>
-                    )}
-                  </h3>
-                  <p className="mt-0.5 text-sm text-muted">{inst.desc}</p>
+                  <span className="label-sm text-accent">{String(index + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-2 font-display-medium text-lg text-ink">{step.title}</h3>
+                  <p className="mt-2 text-sm text-ink/60">{step.desc}</p>
                 </div>
-              </div>
-              <pre className="mt-3 overflow-x-auto rounded-lg bg-[#0a0a0f] p-3 font-mono text-sm text-green-400">
-                <code>{inst.code}</code>
-              </pre>
-              {inst.note && (
-                <p className="mt-2 text-xs text-muted">{inst.note}</p>
-              )}
-            </motion.div>
-          ))}
-        </div>
-
-        <section className="mt-16">
-          <motion.h2
-            {...fadeUp}
-            className="text-2xl font-bold tracking-tight"
-          >
-            After installing
-          </motion.h2>
-          <div className="mt-6 space-y-6">
-            {postInstall.map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, x: -8 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.08 }}
-                className="rounded-xl border border-border p-5"
-              >
-                <h3 className="font-semibold">{step.title}</h3>
-                <pre className="mt-2 overflow-x-auto rounded-lg bg-[#0a0a0f] p-3 font-mono text-sm text-green-400">
-                  <code>{step.code}</code>
-                </pre>
-                <p className="mt-2 text-sm text-muted">{step.desc}</p>
-              </motion.div>
+                <div className="relative">
+                  <CopyButton text={step.cmd} className="absolute right-3 top-3" />
+                  <pre className="overflow-x-auto border section-rule p-4 font-mono text-[13px] leading-relaxed text-ink/75">
+                    <code>{step.cmd}</code>
+                  </pre>
+                </div>
+              </Reveal>
             ))}
           </div>
         </section>
+
+        <div className="mt-20 grid gap-8 lg:grid-cols-2">
+          <section>
+            <Reveal>
+              <h2 className="font-display-medium text-2xl text-ink">Updating</h2>
+            </Reveal>
+            <Reveal className="relative mt-6 border section-rule p-6">
+              <CopyButton text={updateSteps} className="absolute right-4 top-4" />
+              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+                <code>{updateSteps}</code>
+              </pre>
+            </Reveal>
+          </section>
+
+          <section>
+            <Reveal>
+              <h2 className="font-display-medium text-2xl text-ink">Uninstalling</h2>
+            </Reveal>
+            <Reveal className="relative mt-6 border section-rule p-6">
+              <CopyButton text={uninstallSteps} className="absolute right-4 top-4" />
+              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+                <code>{uninstallSteps}</code>
+              </pre>
+            </Reveal>
+          </section>
+        </div>
+
+        <Reveal className="mt-20 border section-rule p-6 md:p-8">
+          <h2 className="font-display-medium text-xl text-ink">Why there are no downloads</h2>
+          <div className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-ink/65">
+            <p>
+              The GitHub Releases API for{" "}
+              <code className="bg-ink/10 px-1 font-mono">yash249114/loom</code> returns an
+              empty list. There are no <code className="bg-ink/10 px-1 font-mono">.dmg</code>,{" "}
+              <code className="bg-ink/10 px-1 font-mono">.exe</code>,{" "}
+              <code className="bg-ink/10 px-1 font-mono">.tar.gz</code> or APK artifacts.
+            </p>
+            <p>
+              The npm name <code className="bg-ink/10 px-1 font-mono">loom-agent</code> is
+              already taken by an unrelated project. Do not run{" "}
+              <code className="bg-ink/10 px-1 font-mono">npm install -g loom-agent</code>;
+              it installs the wrong software.
+            </p>
+            <p>
+              Binary releases, a Homebrew formula and an official npm package are
+              planned. Until they exist, building from source is the verified route.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-16 flex flex-wrap gap-3 border-t section-rule pt-8">
+          <Link
+            href="/docs"
+            className="label bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
+          >
+            Read the docs
+          </Link>
+          <a
+            href="https://github.com/yash249114/loom"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="label border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
+          >
+            View on GitHub
+          </a>
+        </Reveal>
       </div>
     </div>
   );

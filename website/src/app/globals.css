@@ -1,41 +1,185 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
-  --color-primary: #7c3aed;
-  --color-primary-light: #a78bfa;
-  --color-primary-dark: #5b21b6;
-  --color-secondary: #06b6d4;
-  --color-accent: #f59e0b;
-  --color-surface: #f8fafc;
-  --color-muted: #64748b;
-  --color-border: #e2e8f0;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-black: #0B0B0A;
+  --color-bg-cream: #F4F0E9;
+  --color-ink: #151412;
+  --color-ink-on-black: #EDE8DF;
+  --color-copper: #B4552D;
+  --color-copper-dark: #8A4526;
+  --color-copper-light: #C9704A;
+  --color-hairline: rgba(21, 20, 18, 0.18);
+  --color-focus-cream: #B4552D;
+  --color-focus-black: #F4F0E9;
+
+  --font-display: var(--font-newsreader);
+  --font-ui: var(--font-inter);
+
+  --animate-rotate-slow: rotate-slow 30s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0f;
-    --foreground: #f1f5f9;
-    --surface: #111118;
-    --muted: #94a3b8;
-    --border: #1e293b;
+    --font-newsreader: "Newsreader", Georgia, "Times New Roman", serif;
+    --font-inter: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-bg-black);
+    color: var(--color-ink-on-black);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-copper);
+    color: var(--color-bg-cream);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus-black);
+    outline-offset: 2px;
+  }
+
+  .bg-cream :focus-visible {
+    outline-color: var(--color-focus-cream);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .font-display-medium {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.05;
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
+  }
+
+  .label {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .label-sm {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hairline {
+    border-color: var(--color-hairline);
+  }
+
+  .bg-cream {
+    background: var(--color-bg-cream);
+    color: var(--color-ink);
+    --section-accent: var(--color-copper-dark);
+    --section-hairline: rgba(21, 20, 18, 0.18);
+  }
+
+  .bg-black {
+    background: var(--color-bg-black);
+    color: var(--color-ink-on-black);
+    --section-accent: var(--color-copper-light);
+    --section-hairline: rgba(237, 232, 223, 0.16);
+  }
+
+  .text-accent {
+    color: var(--section-accent, var(--color-copper));
+  }
+
+  .bg-section {
+    background: var(--color-bg-cream);
+  }
+
+  .section-rule {
+    border-color: var(--section-hairline, var(--color-hairline));
+  }
+
+  .scroll-mt-nav {
+    scroll-margin-top: 6rem;
+  }
+
+  .text-copper {
+    color: var(--color-copper);
+  }
+
+  .text-cream {
+    color: var(--color-bg-cream);
+  }
+
+  .text-copper-dark {
+    color: var(--color-copper-dark);
+  }
+
+  .text-ink {
+    color: var(--color-ink);
+  }
+
+  .text-ink-on-black {
+    color: var(--color-ink-on-black);
+  }
+
+  .border-hairline {
+    border-color: var(--color-hairline);
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-::selection {
-  background: #7c3aed;
-  color: white;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
 }
