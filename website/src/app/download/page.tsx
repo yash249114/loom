@@ -48,13 +48,13 @@ rm -rf /path/to/loom`;
 export default function DownloadPage() {
   return (
     <div className="bg-cream min-h-screen">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-[1560px] px-6 page-y 2xl:max-w-[1680px]">
         <Reveal>
           <SectionLabel number="—" label="Install" />
-          <h1 className="mt-6 max-w-2xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="type-h1 mt-6 max-w-2xl text-ink">
             Build from source. That is the only path today.
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-ink/65">
+          <p className="type-lead mt-5 max-w-xl text-ink/65">
             No release binaries, no Homebrew formula, and no official npm
             package. Install with git, pnpm and npm link.
           </p>
@@ -66,7 +66,7 @@ export default function DownloadPage() {
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Prerequisites</h2>
+            <h2 className="type-h2 text-ink">Prerequisites</h2>
           </Reveal>
           <Reveal className="mt-6 overflow-x-auto">
             <table className="w-full border-t section-rule text-sm">
@@ -97,19 +97,21 @@ export default function DownloadPage() {
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">After installing</h2>
+            <h2 className="type-h2 text-ink">After installing</h2>
           </Reveal>
           <div className="mt-8 space-y-px border section-rule bg-[color:var(--section-hairline)]">
             {postInstall.map((step, index) => (
-              <Reveal key={step.title} className="grid gap-6 bg-cream p-6 md:grid-cols-[1fr_1.2fr]">
+              <Reveal key={step.title} className="grid gap-6 bg-cream p-6 [&>*]:min-w-0 md:grid-cols-[1fr_1.2fr]">
                 <div>
                   <span className="label-sm text-accent">{String(index + 1).padStart(2, "0")}</span>
                   <h3 className="mt-2 font-display-medium text-lg text-ink">{step.title}</h3>
                   <p className="mt-2 text-sm text-ink/60">{step.desc}</p>
                 </div>
-                <div className="relative">
-                  <CopyButton text={step.cmd} className="absolute right-3 top-3" />
-                  <pre className="overflow-x-auto border section-rule p-4 font-mono text-[13px] leading-relaxed text-ink/75">
+                <div className="border section-rule">
+                  <div className="flex justify-end border-b section-rule px-3 py-2">
+                    <CopyButton text={step.cmd} />
+                  </div>
+                  <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75">
                     <code>{step.cmd}</code>
                   </pre>
                 </div>
@@ -118,14 +120,16 @@ export default function DownloadPage() {
           </div>
         </section>
 
-        <div className="mt-20 grid gap-8 lg:grid-cols-2">
+        <div className="mt-20 grid gap-8 [&>*]:min-w-0 lg:grid-cols-2">
           <section>
             <Reveal>
-              <h2 className="font-display-medium text-2xl text-ink">Updating</h2>
+              <h2 className="type-h2 text-ink">Updating</h2>
             </Reveal>
-            <Reveal className="relative mt-6 border section-rule p-6">
-              <CopyButton text={updateSteps} className="absolute right-4 top-4" />
-              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+            <Reveal className="mt-6 border section-rule">
+              <div className="flex justify-end border-b section-rule px-3 py-2">
+                <CopyButton text={updateSteps} />
+              </div>
+              <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-6">
                 <code>{updateSteps}</code>
               </pre>
             </Reveal>
@@ -133,11 +137,13 @@ export default function DownloadPage() {
 
           <section>
             <Reveal>
-              <h2 className="font-display-medium text-2xl text-ink">Uninstalling</h2>
+              <h2 className="type-h2 text-ink">Uninstalling</h2>
             </Reveal>
-            <Reveal className="relative mt-6 border section-rule p-6">
-              <CopyButton text={uninstallSteps} className="absolute right-4 top-4" />
-              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+            <Reveal className="mt-6 border section-rule">
+              <div className="flex justify-end border-b section-rule px-3 py-2">
+                <CopyButton text={uninstallSteps} />
+              </div>
+              <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-6">
                 <code>{uninstallSteps}</code>
               </pre>
             </Reveal>
@@ -145,7 +151,7 @@ export default function DownloadPage() {
         </div>
 
         <Reveal className="mt-20 border section-rule p-6 md:p-8">
-          <h2 className="font-display-medium text-xl text-ink">Why there are no downloads</h2>
+          <h2 className="type-h2 text-ink">Why there are no downloads</h2>
           <div className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-ink/65">
             <p>
               The GitHub Releases API for{" "}
@@ -170,7 +176,7 @@ export default function DownloadPage() {
         <Reveal className="mt-16 flex flex-wrap gap-3 border-t section-rule pt-8">
           <Link
             href="/docs"
-            className="label bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
+            className="label inline-flex min-h-11 items-center bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
           >
             Read the docs
           </Link>
@@ -178,7 +184,7 @@ export default function DownloadPage() {
             href="https://github.com/yash249114/loom"
             target="_blank"
             rel="noopener noreferrer"
-            className="label border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
+            className="label inline-flex min-h-11 items-center border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
           >
             View on GitHub
           </a>

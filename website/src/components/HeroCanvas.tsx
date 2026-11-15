@@ -15,9 +15,13 @@ interface Dot {
 const CREAM = "#F4F0E9";
 const INK = "#151412";
 const COPPER = "#B4552D";
+const MAX_DOTS = 6000;
 
 function createDots(width: number, height: number, dpr: number): Dot[] {
-  const spacing = 18 * dpr;
+  const spacing = Math.max(
+    18 * dpr,
+    Math.sqrt((width * height) / MAX_DOTS)
+  );
   const cols = Math.ceil(width / spacing);
   const rows = Math.ceil(height / spacing);
   const dots: Dot[] = [];
@@ -256,7 +260,7 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const scene = initWebGL(canvas);
     const ctx = scene ? null : canvas.getContext("2d", { alpha: false });
     if (!scene && !ctx) return;
@@ -275,7 +279,7 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
     };
 
     const loop = () => {
-      if (reduced || !visible) {
+      if (reduced || !visible || document.hidden) {
         frame = 0;
         return;
       }
@@ -285,7 +289,7 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
     };
 
     const start = () => {
-      if (!frame && !reduced && visible) {
+      if (!frame && !reduced && visible && !document.hidden) {
         frame = requestAnimationFrame(loop);
       }
     };
@@ -299,6 +303,8 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
+      const cap = rect.width < 640 ? 1.25 : 1.5;
+      dpr = Math.min(window.devicePixelRatio || 1, cap);
       width = Math.max(1, Math.round(rect.width * dpr));
       height = Math.max(1, Math.round(rect.height * dpr));
       canvas.width = width;
@@ -341,12 +347,20 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
     );
 
     const resizeObserver = new ResizeObserver(resize);
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const onVisibilityChange = () => {
+      if (document.hidden) stop();
+      else start();
+    };
 
     resize();
     observer.observe(canvas);
     resizeObserver.observe(canvas);
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    canvas.addEventListener("pointerleave", onPointerLeave);
+    if (finePointer) {
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+      canvas.addEventListener("pointerleave", onPointerLeave);
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
     mediaQuery.addEventListener("change", onReducedChange);
 
     if (reduced) draw();
@@ -358,6 +372,7 @@ export function HeroCanvas({ className = "" }: { className?: string }) {
       resizeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerleave", onPointerLeave);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       mediaQuery.removeEventListener("change", onReducedChange);
       if (scene) {
         scene.gl.deleteProgram(scene.program);

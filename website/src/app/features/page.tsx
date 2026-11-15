@@ -275,13 +275,13 @@ const tools = [
 export default function FeaturesPage() {
   return (
     <div className="bg-cream min-h-screen">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-[1560px] px-6 page-y 2xl:max-w-[1680px]">
         <Reveal>
           <SectionLabel number="—" label="Catalogue" />
-          <h1 className="mt-6 max-w-2xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="type-h1 mt-6 max-w-2xl text-ink">
             Features, without the marketing fluff
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-ink/65">
+          <p className="type-lead mt-5 max-w-xl text-ink/65">
             Every capability is tagged with what actually exists today. If it is
             not in the code, it is marked planned.
           </p>
@@ -301,7 +301,7 @@ export default function FeaturesPage() {
         {featureGroups.map((group, groupIndex) => (
           <section key={group.title} className="mt-16">
             <Reveal delay={groupIndex * 0.04}>
-              <h2 className="font-display-medium text-2xl text-ink">{group.title}</h2>
+              <h2 className="type-h2 text-ink">{group.title}</h2>
             </Reveal>
             <dl className="mt-6 border-t section-rule">
               {group.features.map((feature) => (
@@ -333,7 +333,7 @@ export default function FeaturesPage() {
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Slash commands</h2>
+            <h2 className="type-h2 text-ink">Slash commands</h2>
             <p className="mt-2 text-sm text-ink/55">
               From <code className="bg-ink/10 px-1 font-mono">src/commands/definitions.ts</code>.
             </p>
@@ -357,7 +357,7 @@ export default function FeaturesPage() {
 
         <section id="tools" className="mt-20 scroll-mt-nav">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Tool reference</h2>
+            <h2 className="type-h2 text-ink">Tool reference</h2>
             <p className="mt-2 text-sm text-ink/55">
               Seven tools exposed to the agent loop.
             </p>
@@ -387,13 +387,13 @@ export default function FeaturesPage() {
         <Reveal className="mt-16 flex flex-wrap gap-3 border-t section-rule pt-8">
           <Link
             href="/providers"
-            className="label border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
+            className="label inline-flex min-h-11 items-center border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
           >
             Provider setup
           </Link>
           <Link
             href="/download"
-            className="label bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
+            className="label inline-flex min-h-11 items-center bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
           >
             Download
           </Link>

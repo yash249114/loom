@@ -102,33 +102,33 @@ export default function HomePage() {
     <MotionConfig reducedMotion="user">
     <>
       <section className="relative overflow-hidden bg-black">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-6 pb-16 pt-8 lg:min-h-[92vh] lg:grid-cols-2 lg:items-stretch lg:gap-14 lg:pt-14">
+        <div className="mx-auto grid w-full max-w-[1560px] gap-10 px-6 pb-16 pt-8 lg:min-h-[min(86svh,880px)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-stretch lg:gap-14 lg:pt-14 2xl:max-w-[1680px]">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative order-2 min-h-[420px] overflow-hidden bg-cream lg:order-1 lg:min-h-[620px]"
+            className="relative order-2 min-h-[clamp(17rem,50svh,28rem)] overflow-hidden bg-cream sm:min-h-[clamp(18rem,52svh,30rem)] lg:order-1 lg:min-h-0"
           >
             <div className="absolute inset-0">
               <HeroCanvas />
             </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#F4F0E9] via-[#F4F0E9]/90 to-transparent px-6 pb-6 pt-28">
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#F4F0E9] via-[#F4F0E9]/90 to-transparent px-5 pb-5 pt-20 sm:px-6 sm:pb-6 sm:pt-28">
               <div className="flex items-center gap-3">
                 <span className="h-px w-12 bg-copper-dark" aria-hidden="true" />
                 <span className="label-sm text-copper-dark">Loom 0.1.0-beta</span>
               </div>
-              <p className="mt-4 max-w-md font-display text-2xl leading-[1.08] text-ink sm:text-3xl">
+              <p className="mt-4 max-w-md font-display text-[clamp(1.35rem,4.5vw,1.875rem)] leading-[1.08] text-ink">
                 Your models. Your workflow. One intelligent coding agent.
               </p>
             </div>
           </motion.div>
 
-          <div className="order-1 flex flex-col justify-center lg:order-2">
+          <div className="order-1 flex min-w-0 flex-col justify-center lg:order-2">
             <motion.h1
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="max-w-xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink-on-black sm:text-5xl lg:text-6xl"
+              className="type-hero max-w-xl text-ink-on-black"
             >
               One coding agent. Every model. Total control.
             </motion.h1>
@@ -136,7 +136,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="mt-6 max-w-lg text-lg leading-relaxed text-ink-on-black/70"
+              className="type-lead mt-6 max-w-lg text-ink-on-black/70"
             >
               Connect the AI providers you trust, bring your own keys, and route
               every coding task to the right model.
@@ -145,17 +145,17 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="mt-9 flex flex-col gap-3 sm:flex-row"
+              className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
             >
               <Link
                 href="/download"
-                className="label inline-flex items-center justify-center bg-copper px-6 py-3 text-cream transition-colors hover:bg-copper-dark"
+                className="label inline-flex min-h-11 items-center justify-center bg-copper px-6 py-3 text-cream transition-colors hover:bg-copper-dark"
               >
                 Download Loom
               </Link>
               <Link
                 href="/providers"
-                className="label inline-flex items-center justify-center border border-ink-on-black/25 px-6 py-3 text-ink-on-black transition-colors hover:border-ink-on-black/50 hover:bg-ink-on-black/5"
+                className="label inline-flex min-h-11 items-center justify-center border border-ink-on-black/25 px-6 py-3 text-ink-on-black transition-colors hover:border-ink-on-black/50 hover:bg-ink-on-black/5"
               >
                 Explore providers
               </Link>
@@ -163,7 +163,7 @@ export default function HomePage() {
                 href="https://github.com/yash249114/loom"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="label inline-flex items-center justify-center gap-2 px-6 py-3 text-ink-on-black/55 transition-colors hover:text-copper-light"
+                className="label inline-flex min-h-11 items-center justify-center gap-2 px-6 py-3 text-ink-on-black/55 transition-colors hover:text-copper-light"
               >
                 View GitHub
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -177,7 +177,7 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.35 }}
-              className="mt-14 hidden lg:block"
+              className="mt-10 hidden lg:block xl:mt-14"
             >
               <Emblem size={92} className="text-copper/70" />
             </motion.div>
@@ -185,14 +185,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-cream px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-cream px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
             <motion.div {...reveal}>
               <SectionLabel number="01" label="The premise" />
             </motion.div>
             <motion.div {...reveal}>
-              <p className="font-display text-2xl leading-snug text-ink sm:text-3xl">
+              <p className="type-display text-ink">
                 Loom is not another AI wrapper. It is a local-first coding agent
                 that puts you in charge of which models run where — local,
                 remote, or a chain of fallbacks.
@@ -238,8 +238,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-black px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-black px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="02" label="Terminal demonstration" />
             <p className="mt-5 text-ink-on-black/60">
@@ -252,15 +252,15 @@ export default function HomePage() {
             <div className="flex items-center gap-2 border-b section-rule bg-ink-on-black/5 px-4 py-3">
               <span className="label-sm text-ink-on-black/45">loom</span>
             </div>
-            <pre className="overflow-x-auto p-6 font-mono text-[13px] leading-relaxed text-ink-on-black/80">
+            <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink-on-black/80 sm:p-6">
               <code>{terminalSession}</code>
             </pre>
           </motion.div>
         </div>
       </section>
 
-      <section className="bg-cream px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-cream px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="03" label="Architecture" />
             <p className="mt-5 text-ink/65">
@@ -269,7 +269,7 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <motion.ol {...reveal} className="mt-12 grid gap-px border section-rule bg-[color:var(--section-hairline)] md:grid-cols-4">
+          <motion.ol {...reveal} className="mt-12 grid gap-px border section-rule bg-[color:var(--section-hairline)] sm:grid-cols-2 lg:grid-cols-4">
             {[
               { title: "Keys & endpoints", desc: "Environment variables or .loomrc.json. OS keychain is planned." },
               { title: "Provider adapters", desc: "ollama · openai-compatible · anthropic · google" },
@@ -286,8 +286,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-black px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-black px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="04" label="Routing" />
             <p className="mt-5 text-ink-on-black/60">
@@ -347,8 +347,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-cream px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-cream px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="05" label="Bring your own keys" />
             <p className="mt-5 text-ink/65">
@@ -406,8 +406,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-black px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-black px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="06" label="Capabilities" />
             <p className="mt-5 text-ink-on-black/60">
@@ -415,7 +415,7 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <motion.div {...reveal} className="mt-10">
+          <motion.div {...reveal} className="mt-10 overflow-x-auto">
             <table className="w-full border-t section-rule text-sm text-ink-on-black/75">
               <caption className="sr-only">Loom agent tools</caption>
               <thead>
@@ -453,8 +453,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-cream px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-cream px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="max-w-2xl">
             <SectionLabel number="07" label="Platform compatibility" />
             <p className="mt-5 text-ink/65">
@@ -474,8 +474,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-black px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-[1400px]">
+      <section className="bg-black px-6 section-y">
+        <div className="mx-auto w-full max-w-[1560px] 2xl:max-w-[1680px]">
           <motion.div {...reveal} className="grid gap-10 [&>*]:min-w-0 lg:grid-cols-[1fr_1.2fr] lg:items-start">
             <div>
               <SectionLabel number="08" label="Install from source" />
@@ -489,9 +489,11 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="relative border section-rule p-6">
-              <CopyButton text={installCommand} className="absolute right-4 top-4" />
-              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink-on-black/80">
+            <div className="border section-rule">
+              <div className="flex justify-end border-b section-rule px-3 py-2">
+                <CopyButton text={installCommand} />
+              </div>
+              <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink-on-black/80 sm:p-6">
                 <code>{`git clone https://github.com/yash249114/loom.git
 cd loom
 pnpm install
@@ -509,7 +511,7 @@ loom --help`}</code>
               href="https://github.com/yash249114/loom"
               target="_blank"
               rel="noopener noreferrer"
-              className="label inline-flex items-center gap-2 border border-ink-on-black/25 px-6 py-3 text-ink-on-black transition-colors hover:border-ink-on-black/50 hover:bg-ink-on-black/5"
+              className="label inline-flex min-h-11 items-center gap-2 border border-ink-on-black/25 px-6 py-3 text-ink-on-black transition-colors hover:border-ink-on-black/50 hover:bg-ink-on-black/5"
             >
               View the repository
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

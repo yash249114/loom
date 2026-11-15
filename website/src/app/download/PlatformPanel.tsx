@@ -105,14 +105,14 @@ export function PlatformPanel() {
               aria-selected={isActive}
               aria-controls={`${platform.id}-panel`}
               onClick={() => setSelected(platform.id)}
-              className={`label border px-4 py-2.5 transition-colors ${
+              className={`label inline-flex min-h-11 flex-wrap items-center gap-x-2 border px-4 py-2.5 transition-colors ${
                 isActive
                   ? "border-copper bg-copper text-cream"
                   : "border-hairline text-ink/60 hover:border-copper-dark hover:text-copper-dark"
               }`}
             >
               {platform.name}
-              <span className={`ml-2 label-sm ${isActive ? "text-[#F4F0E9]/70" : "text-ink/35"}`}>
+              <span className={`label-sm ${isActive ? "text-[#F4F0E9]/70" : "text-ink/35"}`}>
                 {platform.status}
               </span>
             </button>
@@ -140,9 +140,11 @@ export function PlatformPanel() {
           </ul>
         </div>
 
-        <div className="relative">
-          <CopyButton text={installCommands[active]} className="absolute right-4 top-4" />
-          <pre className="h-full overflow-x-auto border section-rule p-6 font-mono text-[13px] leading-relaxed text-ink/75">
+        <div className="flex min-h-0 flex-col border section-rule">
+          <div className="flex justify-end border-b section-rule px-3 py-2">
+            <CopyButton text={installCommands[active]} />
+          </div>
+          <pre className="min-h-0 flex-1 overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-6">
             <code>{installCommands[active]}</code>
           </pre>
         </div>

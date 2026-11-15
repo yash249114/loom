@@ -31,9 +31,10 @@ export function CopyButton({
       type="button"
       onClick={handleCopy}
       className={`
-        inline-flex items-center gap-2 px-3 py-1.5 text-sm font-ui font-medium
+        inline-flex min-h-11 items-center gap-2 px-3 py-1.5 text-sm font-ui font-medium
         border border-hairline bg-cream text-ink transition-colors
         hover:bg-ink hover:text-cream focus-visible:outline-copper
+        sm:min-h-0
         ${copied ? "bg-copper text-cream border-copper" : ""}
         ${className}
       `}

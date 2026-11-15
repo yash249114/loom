@@ -63,21 +63,38 @@ const configExample = `{
 export default function DocsPage() {
   return (
     <div className="bg-cream min-h-screen">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-[1560px] px-6 page-y 2xl:max-w-[1680px]">
         <Reveal>
           <SectionLabel number="—" label="Documentation" />
-          <h1 className="mt-6 max-w-2xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="type-h1 mt-6 max-w-2xl text-ink">
             Everything Loom can do, and nothing it cannot
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-ink/65">
+          <p className="type-lead mt-5 max-w-xl text-ink/65">
             Commands, configuration, routing and tooling as implemented in the
             repository. Planned features are labelled as planned.
           </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[220px_1fr]">
+        <Reveal className="mt-10 lg:hidden">
+          <details className="border section-rule">
+            <summary className="label flex min-h-11 cursor-pointer items-center px-4 text-accent">
+              On this page
+            </summary>
+            <ul className="grid gap-1 border-t section-rule px-4 py-3 text-sm sm:grid-cols-2">
+              {sections.map(([id, label]) => (
+                <li key={id}>
+                  <a href={`#${id}`} className="flex min-h-9 items-center text-ink/60 transition-colors hover:text-copper-dark">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </Reveal>
+
+        <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
           <nav aria-label="Documentation sections" className="hidden lg:block">
-            <div className="sticky top-28">
+            <div className="sticky top-24">
               <p className="label text-accent">On this page</p>
               <ul className="mt-4 space-y-2 border-l section-rule pl-4 text-sm">
                 {sections.map(([id, label]) => (
@@ -93,21 +110,23 @@ export default function DocsPage() {
 
           <div className="min-w-0">
             <section id="quick-start" className="scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Quick start</h2>
+              <h2 className="type-h2 text-ink">Quick start</h2>
               <p className="mt-2 text-sm text-ink/60">
                 Node.js 18.17+, pnpm and git are required. There is no npm or
                 binary install yet.
               </p>
-              <div className="relative mt-5 border section-rule p-5">
-                <CopyButton text={quickStart} className="absolute right-3 top-3" />
-                <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+              <div className="mt-5 border section-rule">
+                <div className="flex justify-end border-b section-rule px-3 py-2">
+                  <CopyButton text={quickStart} />
+                </div>
+                <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75">
                   <code>{quickStart}</code>
                 </pre>
               </div>
             </section>
 
             <section id="commands" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Commands</h2>
+              <h2 className="type-h2 text-ink">Commands</h2>
               <p className="mt-2 text-sm text-ink/60">
                 CLI entrypoints. Most flags are optional; run{" "}
                 <code className="bg-ink/10 px-1 font-mono">loom &lt;command&gt; --help</code>{" "}
@@ -134,7 +153,7 @@ export default function DocsPage() {
             </section>
 
             <section id="configuration" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Configuration</h2>
+              <h2 className="type-h2 text-ink">Configuration</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 Loom reads <code className="bg-ink/10 px-1 font-mono">.loomrc.json</code> or{" "}
                 <code className="bg-ink/10 px-1 font-mono">.loom/config.json</code> from the
@@ -142,16 +161,18 @@ export default function DocsPage() {
                 values of the form <code className="bg-ink/10 px-1 font-mono">${"{VAR}"}</code>{" "}
                 are interpolated from the environment.
               </p>
-              <div className="relative mt-5 border section-rule p-5">
-                <CopyButton text={configExample} className="absolute right-3 top-3" />
-                <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+              <div className="mt-5 border section-rule">
+                <div className="flex justify-end border-b section-rule px-3 py-2">
+                  <CopyButton text={configExample} />
+                </div>
+                <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75">
                   <code>{configExample}</code>
                 </pre>
               </div>
             </section>
 
             <section id="providers" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Providers</h2>
+              <h2 className="type-h2 text-ink">Providers</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 Four adapters: <code className="bg-ink/10 px-1 font-mono">ollama</code>,{" "}
                 <code className="bg-ink/10 px-1 font-mono">openai-compatible</code>,{" "}
@@ -183,7 +204,7 @@ export default function DocsPage() {
             </section>
 
             <section id="routing" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Routing</h2>
+              <h2 className="type-h2 text-ink">Routing</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 Three modes: <strong className="font-medium text-ink">auto</strong> classifies
                 the prompt by keyword into coding, reasoning or general and uses your
@@ -192,7 +213,7 @@ export default function DocsPage() {
                 cloud providers. The fallback chain is primary → cloud fallback → local
                 Ollama, with the final step gated by configuration.
               </p>
-              <pre className="mt-5 overflow-x-auto border section-rule p-5 font-mono text-[13px] leading-relaxed text-ink/75">
+              <pre className="mt-5 overflow-x-auto border section-rule p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-5">
                 <code>{`[router] Category: coding
 [router] Mode: auto
 [router] Selected: qwen/qwen3-coder:free @ openrouter
@@ -204,7 +225,7 @@ export default function DocsPage() {
             </section>
 
             <section id="tools" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Tools</h2>
+              <h2 className="type-h2 text-ink">Tools</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 The agent loop has seven tools: readfile, writefile, editfile,
                 patchfile, listdir, searchfiles and shell. Shell commands ask for
@@ -222,7 +243,7 @@ export default function DocsPage() {
             </section>
 
             <section id="sessions" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Sessions</h2>
+              <h2 className="type-h2 text-ink">Sessions</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 Conversations are saved per workspace via lowdb. Use{" "}
                 <code className="bg-ink/10 px-1 font-mono">loom sessions</code> or{" "}
@@ -232,13 +253,13 @@ export default function DocsPage() {
             </section>
 
             <section id="memory" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Memory</h2>
+              <h2 className="type-h2 text-ink">Memory</h2>
               <p className="mt-2 max-w-2xl text-sm text-ink/60">
                 Memory stores notes, summaries and project context as JSON in the
                 workspace. Search is lexical — TF-IDF with cosine similarity over the
                 stored notes and index. There are no embeddings and no vector database.
               </p>
-              <pre className="mt-5 overflow-x-auto border section-rule p-5 font-mono text-[13px] leading-relaxed text-ink/75">
+              <pre className="mt-5 overflow-x-auto border section-rule p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-5">
                 <code>{`loom memory -a "Auth middleware uses jose, not jsonwebtoken"
 loom memory -s "auth middleware"
 loom memory -l`}</code>
@@ -246,7 +267,7 @@ loom memory -l`}</code>
             </section>
 
             <section id="extensions" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Extensions</h2>
+              <h2 className="type-h2 text-ink">Extensions</h2>
               <div className="mt-4 grid gap-6 sm:grid-cols-2">
                 <div className="border section-rule p-5">
                   <h3 className="font-medium text-ink">MCP servers</h3>
@@ -270,7 +291,7 @@ loom memory -l`}</code>
             </section>
 
             <section id="troubleshooting" className="mt-14 scroll-mt-nav">
-              <h2 className="font-display-medium text-2xl text-ink">Troubleshooting</h2>
+              <h2 className="type-h2 text-ink">Troubleshooting</h2>
               <dl className="mt-4 space-y-5 text-sm">
                 {[
                   [
@@ -305,13 +326,13 @@ loom memory -l`}</code>
             <div className="mt-14 flex flex-wrap gap-3 border-t section-rule pt-8">
               <Link
                 href="/download"
-                className="label bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
+                className="label inline-flex min-h-11 items-center bg-copper px-5 py-3 text-cream transition-colors hover:bg-copper-dark"
               >
                 Install Loom
               </Link>
               <Link
                 href="/changelog"
-                className="label border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
+                className="label inline-flex min-h-11 items-center border border-hairline px-5 py-3 text-ink transition-colors hover:border-copper-dark hover:text-copper-dark"
               >
                 Changelog
               </Link>

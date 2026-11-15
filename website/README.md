@@ -8,9 +8,16 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and Framer Motion.
 
 - `/` — Landing page with hero, features, and terminal demo
 - `/features` — Full feature listing
+- `/providers` — Provider adapters and setup guides
 - `/docs` — Documentation and FAQ
 - `/download` — Install guides for all platforms
 - `/changelog` — Release notes
+
+## Responsive behaviour
+
+The site adapts from 320px phones up to ultrawide desktops. See
+[RESPONSIVE.md](./RESPONSIVE.md) for the layout system, canvas and navigation
+behaviour, and the tested viewport matrix.
 
 ## Development
 

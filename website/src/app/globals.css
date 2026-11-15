@@ -32,7 +32,7 @@
     background: var(--color-bg-black);
     color: var(--color-ink-on-black);
     font-family: var(--font-ui);
-    font-size: 16px;
+    font-size: clamp(0.9375rem, 0.2vw + 0.9rem, 1rem);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -72,6 +72,49 @@
 
   .font-ui {
     font-family: var(--font-ui);
+  }
+
+  .type-hero {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.5rem, 3.2vw + 1.55rem, 4.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  .type-h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.25rem, 2.7vw + 1.25rem, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .type-h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.375rem, 0.5vw + 1.2rem, 1.75rem);
+    line-height: 1.15;
+  }
+
+  .type-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 1.5vw + 1.05rem, 2.25rem);
+    line-height: 1.2;
+  }
+
+  .type-lead {
+    font-size: clamp(1rem, 0.3vw + 0.95rem, 1.125rem);
+    line-height: 1.65;
+  }
+
+  .section-y {
+    padding-block: clamp(3.5rem, 6vw, 7rem);
+  }
+
+  .page-y {
+    padding-block: clamp(3rem, 5vw, 6rem);
   }
 
   .label {
@@ -121,7 +164,13 @@
   }
 
   .scroll-mt-nav {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .scroll-mt-nav {
+      scroll-margin-top: 6rem;
+    }
   }
 
   .text-copper {
@@ -175,11 +224,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (max-width: 640px) {
-  body {
-    font-size: 15px;
   }
 }

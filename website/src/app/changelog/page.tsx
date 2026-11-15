@@ -73,13 +73,13 @@ const releases = [
 export default function ChangelogPage() {
   return (
     <div className="bg-cream min-h-screen">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-[1560px] px-6 page-y 2xl:max-w-[1680px]">
         <Reveal>
           <SectionLabel number="—" label="Changelog" />
-          <h1 className="mt-6 font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="type-h1 mt-6 text-ink">
             Changelog
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-ink/65">
+          <p className="type-lead mt-5 max-w-xl text-ink/65">
             One release so far. Everything else on this site is unreleased work.
           </p>
         </Reveal>
@@ -107,14 +107,14 @@ export default function ChangelogPage() {
                   )}
                 </header>
 
-                <div className="mt-6 grid gap-8 md:grid-cols-2">
+                <div className="mt-6 grid gap-8 [&>*]:min-w-0 md:grid-cols-2">
                   <section>
                     <h3 className="label text-accent">Added</h3>
                     <ul className="mt-3 space-y-2 text-sm text-ink/65">
                       {release.added.map((item) => (
                         <li key={item} className="flex gap-2">
                           <span className="mt-2 h-1 w-1 flex-shrink-0 bg-copper" aria-hidden="true" />
-                          <span>{item}</span>
+                          <span className="break-words">{item}</span>
                         </li>
                       ))}
                     </ul>

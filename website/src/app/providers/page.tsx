@@ -107,13 +107,13 @@ const providers = [
 export default function ProvidersPage() {
   return (
     <div className="bg-cream min-h-screen">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:py-24">
+      <div className="mx-auto w-full max-w-[1560px] px-6 page-y 2xl:max-w-[1680px]">
         <Reveal>
           <SectionLabel number="—" label="Providers" />
-          <h1 className="mt-6 max-w-2xl font-display-medium text-4xl leading-[0.95] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="type-h1 mt-6 max-w-2xl text-ink">
             Bring the models you already trust
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-ink/65">
+          <p className="type-lead mt-5 max-w-xl text-ink/65">
             Four adapter implementations cover local Ollama, OpenAI-compatible
             APIs, Anthropic and Gemini. Everything else reaches Loom through the
             OpenAI-compatible layer.
@@ -122,7 +122,7 @@ export default function ProvidersPage() {
 
         <section className="mt-16">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Adapters</h2>
+            <h2 className="type-h2 text-ink">Adapters</h2>
           </Reveal>
           <Reveal className="mt-6 overflow-x-auto">
             <table className="w-full border-t section-rule text-sm">
@@ -154,9 +154,9 @@ export default function ProvidersPage() {
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Setup guides</h2>
+            <h2 className="type-h2 text-ink">Setup guides</h2>
           </Reveal>
-          <div className="mt-8 grid gap-px border section-rule bg-[color:var(--section-hairline)] md:grid-cols-2">
+          <div className="mt-8 grid gap-px border section-rule bg-[color:var(--section-hairline)] [&>*]:min-w-0 md:grid-cols-2">
             {providers.map((provider) => (
               <Reveal key={provider.name} className="bg-cream p-6">
                 <div className="flex flex-wrap items-center gap-2">
@@ -204,7 +204,7 @@ loom doctor`}</code>
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Configuration</h2>
+            <h2 className="type-h2 text-ink">Configuration</h2>
             <p className="mt-2 max-w-2xl text-sm text-ink/55">
               Endpoints live in <code className="bg-ink/10 px-1 font-mono">.loomrc.json</code> at
               the workspace root or your home directory. Values in{" "}
@@ -212,9 +212,11 @@ loom doctor`}</code>
               environment at load time.
             </p>
           </Reveal>
-          <Reveal className="relative mt-6 border section-rule p-6">
-            <CopyButton text={configExample} className="absolute right-4 top-4" />
-            <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-ink/75">
+          <Reveal className="mt-6 border section-rule">
+            <div className="flex justify-end border-b section-rule px-3 py-2">
+              <CopyButton text={configExample} />
+            </div>
+            <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-ink/75 sm:p-6">
               <code>{configExample}</code>
             </pre>
           </Reveal>
@@ -222,7 +224,7 @@ loom doctor`}</code>
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Caveats worth knowing</h2>
+            <h2 className="type-h2 text-ink">Caveats worth knowing</h2>
           </Reveal>
           <div className="mt-6 grid gap-px border section-rule bg-[color:var(--section-hairline)] md:grid-cols-2">
             {[
@@ -253,7 +255,7 @@ loom doctor`}</code>
 
         <section className="mt-20">
           <Reveal>
-            <h2 className="font-display-medium text-2xl text-ink">Everything else</h2>
+            <h2 className="type-h2 text-ink">Everything else</h2>
             <p className="mt-2 max-w-2xl text-sm text-ink/55">
               Not native adapters. These work through an OpenAI-compatible
               endpoint today, either directly or via OpenRouter.

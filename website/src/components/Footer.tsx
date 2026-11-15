@@ -21,9 +21,9 @@ const installCommand = "git clone https://github.com/yash249114/loom.git && cd l
 export function Footer() {
   return (
     <footer className="bg-black border-t section-rule" role="contentinfo">
-      <div className="mx-auto max-w-[1400px] px-6 py-12 lg:py-16">
-        <div className="grid gap-8 md:grid-cols-4 lg:grid-cols-5">
-          <div className="lg:col-span-2">
+      <div className="mx-auto w-full max-w-[1560px] px-6 py-12 2xl:max-w-[1680px] lg:py-16">
+        <div className="grid gap-8 [&>*]:min-w-0 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="sm:col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 font-display-medium text-xl tracking-tight text-ink-on-black" aria-label="Loom home">
               <span className="relative flex h-8 w-8 items-center justify-center" aria-hidden="true">
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,17 +81,15 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div>
+          <div className="min-w-0">
             <h3 className="label text-copper mb-3">Install</h3>
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-sm text-ink-on-black/50">
-                Source install (Node.js ≥ 18.17, pnpm required):
-              </p>
-              <CopyButton
-                text={installCommand}
-                className="flex-shrink-0 px-2 py-1 text-xs"
-              />
-            </div>
+            <p className="text-sm text-ink-on-black/50">
+              Source install (Node.js ≥ 18.17, pnpm required):
+            </p>
+            <CopyButton
+              text={installCommand}
+              className="mt-3 px-2 py-1 text-xs"
+            />
             <code className="mt-3 block font-mono text-xs bg-ink-on-black/10 p-3 text-ink-on-black/80 overflow-x-auto whitespace-pre-wrap break-all">
               {installCommand}
             </code>
