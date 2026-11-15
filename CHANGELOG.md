@@ -32,8 +32,6 @@ Initial beta release of Loom — a local-first, multi-model AI coding agent.
 - INSTALL.md for npm, source, WSL, Ollama setup
 - CONTRIBUTING.md with PR process, dev workflow, code style
 - SECURITY.md with disclosure policy and scope
-- LAUNCH_CHECKLIST.md for release process tracking
-- RELEASE_CHECKLIST.md for step-by-step publishing
 
 ### Testing
 
